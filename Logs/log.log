@@ -1,0 +1,2 @@
+2021-03-02 20:11:20.922 [DEBUG] org.apache.http.impl.conn.BasicClientConnectionManager - Get connection for route {}->http://172.17.0.1:9091
+2021-03-02 20:11:20.929 [DEBUG] org.apache.http.impl.conn.DefaultClientConnectionOperator - Connecting to 172.17.0.1:9091
