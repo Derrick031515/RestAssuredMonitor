@@ -6,6 +6,8 @@ import com.hupofire.handler.MenuListApi_Handler;
 import com.hupofire.util.PropertiesReader;
 import org.apache.log4j.Logger;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.Properties;
  */
 public class MonitorAPI {
 
-    private static Logger logger =Logger.getLogger("J");
+    private static Logger logger = Logger.getLogger(MonitorAPI.class);
     //接口用例标题所在行
     static int TITILE_LINE_INDEX= 5;
     //接口所需参数的个数
@@ -30,11 +32,14 @@ public class MonitorAPI {
     static String[] split = null;
     static Properties prop = null;
 
+    static BufferedWriter bufferedWriter = null;
     static {
         try {
             prop = PropertiesReader.readProperties("src/main/java/api.properties");
             String api_name = prop.getProperty("api_name");
             split = api_name.split(",");
+
+            bufferedWriter = new BufferedWriter(new FileWriter("Logs/api_result.csv",true));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,6 +60,13 @@ public class MonitorAPI {
                             + ",heartTester,login api,"
                             + login
                             + ",v1");
+                    bufferedWriter.write(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+                            + ",heartTester,login api,"
+                            + login
+                            + ",v1");
+                    bufferedWriter.flush();
+                    bufferedWriter.newLine();
+
                 }
             } else if("Menu".equals(split[i])){
                 MenuListApi_Handler.InitializeExcelData();
@@ -90,6 +102,12 @@ public class MonitorAPI {
                             + ",heartTester,menu api,"
                             + menuInfo
                             + ",v1");
+                    bufferedWriter.write(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+                            + ",heartTester,menu api,"
+                            + menuInfo
+                            + ",v1");
+                    bufferedWriter.flush();
+                    bufferedWriter.newLine();
                 }
             } else if("Logout".equals(split[i])){
                 LogoutApi_Handler.InitializeExcelData();
@@ -115,6 +133,12 @@ public class MonitorAPI {
                             + ",heartTester,menu api,"
                             + menuInfo
                             + ",v1");
+                    bufferedWriter.write(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+                            + ",heartTester,menu api,"
+                            + menuInfo
+                            + ",v1");
+                    bufferedWriter.flush();
+                    bufferedWriter.newLine();
                 }
             }
         }
@@ -124,9 +148,7 @@ public class MonitorAPI {
 
         while(true){
             monitor();
-            System.out.println("开始暂停");
             Thread.sleep(1000*60*5);
-            System.out.println("开始监控");
         }
     }
 }
